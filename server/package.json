@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "NODE_ENV=test mocha '__tests__/server.test.js' --exit"
+    "test": "NODE_ENV=test mocha '__tests__/server.test.js' --exit",
+    "report": "NODE_ENV=test mocha '__tests__/server.test.js' --exit --reporter @mochajs/json-file-reporter",
+    "submit": "codestates-submission"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@codestates-cc/submission-npm": "^1.1.2",
     "axios": "^0.21.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
