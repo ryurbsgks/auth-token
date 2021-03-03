@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import axios from "axios";
 import { expect } from "chai";
 import Enzyme, { mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import nock from "nock";
 import React from "react";
-import sinon, { mock } from "sinon";
 
 import App from "../src/App";
 import Login from "../src/components/Login";
@@ -27,7 +25,7 @@ describe("Authentication - Client", () => {
   };
 
   describe("Login Component", () => {
-    it("should have userId and password key in state", (done) => {
+    it("state에 유저아이디와 패스워드를 저장해야 합니다", (done) => {
       const wrapper = mount(<Login />);
       const state = wrapper.state();
       expect(state.userId).to.exist;
@@ -35,7 +33,7 @@ describe("Authentication - Client", () => {
       done();
     });
 
-    it('should send POST request to "https://localhost:4000/login" when JWT Login button is clicked', (done) => {
+    it('JWT 로그인 버튼을 누른다면  "https://localhost:4000/login" 주소로  POST 요청을 보내야 합니다', (done) => {
       const scope = nock("https://localhost:4000")
         .post("/login")
         .reply(200, { data: { accessToken: "fakeAccessToken" } });
@@ -54,7 +52,7 @@ describe("Authentication - Client", () => {
       });
     });
 
-    it("should include userId and password in the body of POST /login request", (done) => {
+    it("POST /login 요청에는 유저아이디와 패스워드정보가 포함되어야 합니다", (done) => {
       const scope = nock("https://localhost:4000")
         .post("/login", mockUser)
         .reply(200, { data: { accessToken: "fakeAccessToken" } });
@@ -73,7 +71,7 @@ describe("Authentication - Client", () => {
       });
     });
 
-    it("successful login should change isLogin and accessToken state in App component", (done) => {
+    it("로그인에 성공한다면 App에 존재하는 isLogin, accessToken 의 상태를 변경해야 합니다", (done) => {
       const scope = nock("https://localhost:4000")
         .post("/login", mockUser)
         .reply(200, { data: { accessToken: "fakeAccessToken" } });
@@ -92,7 +90,7 @@ describe("Authentication - Client", () => {
   });
 
   describe("Mypage Component", () => {
-    it("should have userId, email, and createdAt key in state", (done) => {
+    it("상태에는 userId, email, and createdAt 정보가 포함되어야 합니다", (done) => {
       const wrapper = mount(<Mypage />);
       const state = wrapper.state();
       expect(state.userId).to.exist;
@@ -101,7 +99,7 @@ describe("Authentication - Client", () => {
       done();
     });
 
-    it("should receive accessToken props from App component", (done) => {
+    it("App 컴포넌트에서 accessToken 정보를 props로 받아야 합니다", (done) => {
       const wrapper = mount(<App />);
       wrapper.setState({ isLogin: true });
       wrapper.update();
@@ -110,7 +108,7 @@ describe("Authentication - Client", () => {
       done();
     });
 
-    it('should send GET request to "https://localhost:4000/accesstokenrequest" when access token request button is clicked', (done) => {
+    it('access token request 버튼이 클릭된다면 "https://localhost:4000/accesstokenrequest"주소로 GET 요청을 보내야 합니다', (done) => {
       const scope = nock("https://localhost:4000").get("/accesstokenrequest").reply(200);
       const wrapper = mount(<Mypage />);
       wrapper.find(".btnContainer").children().at(0).simulate("click");
@@ -125,7 +123,7 @@ describe("Authentication - Client", () => {
       });
     });
 
-    it('GET request to "https://localhost:4000/accesstokenrequest" should include header Authorization with value "Bearer YOUR_RECEIVED_ACCESS_TOKEN"', (done) => {
+    it('GET "https://localhost:4000/accesstokenrequest" 요청은 헤더 Authorization 부분에 "Bearer YOUR_RECEIVED_ACCESS_TOKEN" 데이터가 포함되어야 합니다', (done) => {
       const scope = nock("https://localhost:4000", {
         reqheaders: { authorization: "Bearer fakeAccessToken" },
       })
@@ -145,7 +143,7 @@ describe("Authentication - Client", () => {
       });
     });
 
-    it('successful GET request to "https://localhost:4000/accesstokenrequest" should change userId, email, and createdAt state in Mypage', (done) => {
+    it(' GET  "https://localhost:4000/accesstokenrequest" 요청이 성공한 경우, Mypage 페이지의 userId, email, and createdAt 상태를 변경해야 합니다', (done) => {
       const scope = nock("https://localhost:4000")
         .get("/accesstokenrequest")
         .reply(200, {
@@ -166,7 +164,7 @@ describe("Authentication - Client", () => {
       }, 500);
     });
 
-    it('should send GET request to "https://localhost:4000/refreshtokenrequest" when refresh token request button is clicked', (done) => {
+    it('token request button이 클릭된경우, GET "https://localhost:4000/refreshtokenrequest" 요청을 보내야 합니다', (done) => {
       const scope = nock("https://localhost:4000").get("/refreshtokenrequest").reply(200);
       const wrapper = mount(<Mypage />);
       wrapper.find(".btnContainer").children().at(1).simulate("click");
@@ -181,7 +179,7 @@ describe("Authentication - Client", () => {
       });
     });
 
-    it('successful GET request to "https://localhost:4000/refreshtokenrequest" should change userId, email, and createdAt state in Mypage', (done) => {
+    it('GET "https://localhost:4000/refreshtokenrequest" 요청이 성공한 경우, Mypage 페이지의 userId, email, and createdAt 상태를 변경해야 합니다', (done) => {
       const scope = nock("https://localhost:4000")
         .get("/refreshtokenrequest")
         .reply(200, {
@@ -202,7 +200,7 @@ describe("Authentication - Client", () => {
       }, 500);
     });
 
-    it('successful GET request to "https://localhost:4000/refreshtokenrequest" should update access token state in App component', (done) => {
+    it('GET "https://localhost:4000/refreshtokenrequest" 요청이 성공한 경우, App 컴포넌트의 accessToken 상태를 변경해야 합니다', (done) => {
       const scope = nock("https://localhost:4000")
         .get("/refreshtokenrequest")
         .reply(200, {
