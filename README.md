@@ -1,1 +1,1 @@
-# im-sprint-auth-token
+# auth-token
