@@ -25,6 +25,20 @@ class Login extends Component {
     로그인 요청 후 App:
     state = { isLogin: true, accessToken: 서버에_요청하여_받은_access_token }
     */
+
+    const { userId, password } = this.state;
+
+    axios.post("https://localhost:4000/login", {
+      userId, password
+    }, { 
+      headers: {
+        "Content-Type": "application/json"
+      }, withCredentials: true
+    })
+    .then( (res) => {
+      this.props.loginHandler(res.data);
+    })
+    .catch( (err) => {console.log(err)})
    
   }
 
